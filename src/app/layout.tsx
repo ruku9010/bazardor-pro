@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Navlinks from "./components/Navlinks";
 import { Toast } from "@heroui/react";
+import Marquee from "./components/Marquee";
 
 
 const anekBangla = Anek_Bangla({
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         
 <Navbar />
         <Navlinks />
+        <Marquee />
         <div className="bg-[#F0F5F0]">
           {children}
         </div>
