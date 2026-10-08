@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Link, Button } from "@heroui/react";
+import { signOut, useSession } from "@/lib/auth-client";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,18 +9,49 @@ const Navbar = () => {
     dateStyle: "full",
   });
 
+  const { data: session } = useSession();
+  const user = session?.user;
+  console.log(user);
+
+  const handleSignout = async () => {
+    await signOut();
+  };
+
   const links = (
     <>
-      <li>
+      {
+        user ? 
+        <>
+        <div className="flex items-center gap-10">
+          <Link href={"/profile"} >
+            <Button className="bg-white text-black">Profile</Button>
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <h2>{user?.name}</h2>
+
+          <button onClick={handleSignout} className="btn btn-error btn-xs">
+            Signout
+          </button>
+          </div>
+        </div>
+        </> 
+        : 
+        <>
+        <li>
         <Link href="/sign-in">
           <Button className="bg-white text-black">সাইন ইন</Button>{" "}
         </Link>
       </li>
       <li>
         <Link href="/sign-up">
-          <Button className="bg-[#05893E] text-white rounded-xl py-4">সাইন আপ</Button>
+          <Button className="bg-[#05893E] text-white rounded-xl py-4">
+            সাইন আপ
+          </Button>
         </Link>
       </li>
+        </> 
+      }
     </>
   );
   return (
@@ -59,7 +91,9 @@ const Navbar = () => {
             <span className="bg-[#05893E] p-4 rounded-2xl">🛒</span>
             <div className="flex flex-col ml-2">
               <span className="font-bold text-2xl">বাজার দর</span>
-              <span>{date}</span>
+              <Suspense fallback={<span>Loading...</span>}>
+                <span>{date}</span>
+              </Suspense>
             </div>
           </div>
         </div>

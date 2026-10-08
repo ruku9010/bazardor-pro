@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Anek_Bangla } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Navlinks from "./components/Navlinks";
+import { Toast } from "@heroui/react";
 
 
 const anekBangla = Anek_Bangla({
@@ -24,8 +26,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         
-        <Navbar />
-        {children}
+<Navbar />
+        <Navlinks />
+        <div className="bg-[#F0F5F0]">
+          {children}
+        </div>
+        <Toast.Provider />
+        
       
       
       </body>
