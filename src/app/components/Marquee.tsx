@@ -66,9 +66,9 @@ const Marquee = async () => {
                   <span>
                     {
                         d.change.dir === "up" ? 
-                        <><TriangleUpFill className="text-green-500" /></> 
+                        <><TriangleUpFill className="text-red-500" /></> 
                         : 
-                        <><TriangleDownFill className="text-red-500" /></>
+                        <><TriangleDownFill className="text-green-500" /></>
                     }
                   </span>
                   <span>{Math.abs(Number(d.change.pct))}%</span>

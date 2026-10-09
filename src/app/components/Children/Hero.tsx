@@ -17,7 +17,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="bg-white w-[95%] max-w-7xl mx-auto mt-5 p-5 sm:p-8 lg:p-10 rounded-4xl flex flex-col md:flex-row justify-between items-center gap-6 lg:gap-10">
+    <div className="bg-white w-[95%] max-w-7xl mx-auto mt-5 mb-10 p-5 sm:p-8 lg:p-10 rounded-4xl flex flex-col md:flex-row justify-between items-center gap-6 lg:gap-10">
       {/* Left Content */}
       <div className="flex flex-col items-start gap-5 flex-1">
         <span className="bg-[#E1E8E1] rounded-full text-[#05893E] text-sm sm:text-base font-bold px-4 py-2">
