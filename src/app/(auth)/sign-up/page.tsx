@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { useState } from "react";
-import { signUp } from "@/lib/auth-client";
+import { signIn, signUp } from "@/lib/auth-client";
 
 const SignUpPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -42,8 +42,23 @@ const SignUpPage = () => {
     if (!canSubmit) return;
     
     // console.log("Signup successful!");
+        
     
   };
+
+  const handleGoogleSignIn = async () => {
+        await signIn.social({
+          provider: "google",
+        });
+      };
+    
+      const handleGithubSignIn = async () => {
+     await signIn.social({
+          provider: "github",
+        });
+      }
+
+
   return (
     <div className="flex justify-center items-center">
       <Form
@@ -140,8 +155,12 @@ const SignUpPage = () => {
         </Fieldset>
 
       <div className="flex justify-center items-center gap-4 w-full mt-5">
-        <Button className="">Login with Google</Button>
-      <Button className="">Login with Github</Button>
+        <Button onClick={handleGoogleSignIn} className="btn">
+          Login with Google
+        </Button>
+        <Button onClick={handleGithubSignIn} className="btn">
+          Login with Github
+        </Button>
       </div>
       </Form>
 
