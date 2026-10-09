@@ -3,15 +3,14 @@ import { Anek_Bangla } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Navlinks from "./components/Navlinks";
-import { Toast } from "@heroui/react";
+import { Separator, Toast } from "@heroui/react";
 import Marquee from "./components/Marquee";
-
 
 const anekBangla = Anek_Bangla({
   subsets: ["bengali"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"], // Select the weights you need
   variable: "--font-anek-bangla", // Define a CSS variable for Tailwind CSS
-  display: "swap", 
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,17 +25,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${anekBangla.variable} ${anekBangla.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        
-<Navbar />
+        <Navbar />
+        <Separator className="opacity-50"/>
         <Navlinks />
+        <Separator />
         <Marquee />
-        <div className="bg-[#F0F5F0]">
-          {children}
-        </div>
+        <Separator />
+        <div className="bg-[#F0F5F0]">{children}</div>
         <Toast.Provider />
-        
-      
-      
       </body>
     </html>
   );

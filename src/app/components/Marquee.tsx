@@ -35,7 +35,7 @@ const Marquee = async () => {
 
   try {
     const response = await fetch(
-      "https://api.api-store.workers.dev/api/bazardor/products",
+      "https://api.abcz.workers.dev/api/bazardor/products",
       {
         next: {
           revalidate: 300,
@@ -54,8 +54,8 @@ const Marquee = async () => {
 
   return (
     <div className="bg-white text-black">
-      <div className="flex max-w-7xl mx-auto">
-        <MarqueeText className="py-1 " direction="right" duration={10}>
+      <div className="flex ">
+        <MarqueeText className="py-1" direction="right" duration={10} pauseOnHover={true}>
           <div className="flex gap-10 items-center">
             {data.map((d) => (
               <li key={d.id} className="list-none">

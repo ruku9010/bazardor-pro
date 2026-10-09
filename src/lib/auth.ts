@@ -7,6 +7,11 @@ const db = client.db("bazardor-pro");
 
 
 export const auth = betterAuth({
+  account: {
+		accountLinking: {
+			trustedProviders: ["github", "google"], // Add your provider(s)
+		},
+	},
   session: {
         deferSessionRefresh: true
     },

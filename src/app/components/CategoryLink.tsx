@@ -22,8 +22,8 @@ export default function CategoryLink({ id, icon, nameBn }: CategoryLinkProps) {
             href={targetHref}
             className={`px-3 py-1.5 rounded-md transition-colors ${
                 isActive 
-                    ? 'bg-blue-600 text-white font-semibold' // Active classes
-                    : 'text-gray-700 hover:bg-gray-100'     // Inactive classes
+                    ? 'bg-blue-600 text-white font-semibold' 
+                    : 'text-gray-700 hover:bg-gray-100'     
             }`}
         >
             {icon} {nameBn}
