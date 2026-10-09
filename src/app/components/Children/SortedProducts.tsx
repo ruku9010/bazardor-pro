@@ -1,8 +1,9 @@
 
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import AllProductCard from "./Product/AllProductCard";
+import Link from "next/link";
 
 interface Product {
   id: number;
@@ -55,9 +56,13 @@ const SortedProducts = ({ products }: SortedProductsProps) => {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Suspense fallback={<p>Loading…</p>}>
         {sortedProducts.map((product) => (
-          <AllProductCard key={product.id} product={product} />
+          <Link href={`/product/${product?.id}`} key={product?.id}>
+          <AllProductCard product={product} />
+          </Link>
         ))}
+        </Suspense>
       </div>
     </div>
   );

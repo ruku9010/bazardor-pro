@@ -12,7 +12,6 @@ export default function Home() {
       <IncreasedProduct />
       <DecreaseProduct />
       <AllProduct />
-      <Footer />
     </div>
   );
 }

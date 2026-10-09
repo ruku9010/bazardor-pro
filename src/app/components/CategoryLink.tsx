@@ -10,7 +10,7 @@ interface CategoryLinkProps {
     nameBn: string;
 }
 
-export default function CategoryLink({ id, icon, nameBn }: CategoryLinkProps) {
+export default function CategoryLink({id, icon, nameBn }: CategoryLinkProps) {
     const pathname = usePathname();
     const targetHref = `/category/${id}`;
     
@@ -22,7 +22,7 @@ export default function CategoryLink({ id, icon, nameBn }: CategoryLinkProps) {
             href={targetHref}
             className={`px-3 py-1.5 rounded-md transition-colors ${
                 isActive 
-                    ? 'bg-blue-600 text-white font-semibold' 
+                    ? 'bg-[#047F39] text-white font-semibold' 
                     : 'text-gray-700 hover:bg-gray-100'     
             }`}
         >

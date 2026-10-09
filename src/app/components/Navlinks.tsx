@@ -35,11 +35,11 @@ const Navlinks = async () => {
   const categories: Category[] = Array.from(
     new Map(
       products.map((product) => [
-        product.category,
+        product?.category,
         {
-          id: product.category,
-          nameBn: product.categoryNameBn,
-          icon: product.categoryIcon,
+          id: product?.category,
+          nameBn: product?.categoryNameBn,
+          icon: product?.categoryIcon,
         },
       ])
     ).values()
@@ -53,6 +53,7 @@ const Navlinks = async () => {
             id={category.id}
             icon={category.icon}
             nameBn={category.nameBn}
+            
           />
         </li>
       ))}

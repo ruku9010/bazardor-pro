@@ -1,7 +1,8 @@
-
 import { TriangleDownFill } from "@gravity-ui/icons";
 
 import DecreaseProductCard from "./Product/DecreaseProductCard";
+import Link from "next/link";
+import { Suspense } from "react";
 
 interface Product {
   id: number;
@@ -47,9 +48,13 @@ const DecreaseProduct = async () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.slice(0, 6).map((product) => (
-          <DecreaseProductCard key={product?.id} product={product} />
-        ))}
+        <Suspense fallback={<p>Loading…</p>}>
+          {products.slice(0, 6).map((product) => (
+            <Link href={`/product/${product?.id}`} key={product?.id}>
+              <DecreaseProductCard product={product} />
+            </Link>
+          ))}
+        </Suspense>
       </div>
     </section>
   );

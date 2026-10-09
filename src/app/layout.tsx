@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Navlinks from "./components/Navlinks";
 import { Separator, Toast } from "@heroui/react";
 import Marquee from "./components/Marquee";
+import Footer from "./components/Footer";
 
 const anekBangla = Anek_Bangla({
   subsets: ["bengali"],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Marquee />
         <Separator />
         <div className="bg-[#F0F5F0]">{children}</div>
+        <Footer />
         <Toast.Provider />
       </body>
     </html>
