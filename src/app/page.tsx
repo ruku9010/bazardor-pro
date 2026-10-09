@@ -1,3 +1,4 @@
+import AllProduct from "./components/Children/AllProduct";
 import DecreaseProduct from "./components/Children/DecreaseProduct";
 import Hero from "./components/Children/Hero";
 import IncreasedProduct from "./components/Children/IncreasedProduct";
@@ -9,7 +10,7 @@ export default function Home() {
       <Hero />
       <IncreasedProduct />
       <DecreaseProduct />
-      <div>সব পণ্য</div>
+      <AllProduct />
     </div>
   );
 }

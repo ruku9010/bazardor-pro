@@ -33,7 +33,7 @@ const IncreasedProduct = async () => {
   const increasedProducts: Product[] = await res.json();
 
   const products = increasedProducts.filter(
-    (product) => product.change?.dir === "up",
+    (product) => product?.change?.dir === "up",
   );
 
   return (
@@ -47,7 +47,7 @@ const IncreasedProduct = async () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {products.slice(0, 6).map((product) => (
-          <IncreasedProductCard key={product.id} product={product} />
+          <IncreasedProductCard key={product?.id} product={product} />
         ))}
       </div>
     </section>

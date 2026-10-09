@@ -3,7 +3,7 @@
 
 import { Button } from "@heroui/react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
   const [date, setDate] = useState("");
