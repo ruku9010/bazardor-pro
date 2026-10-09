@@ -1,7 +1,6 @@
 
 import { TriangleUpFill } from "@gravity-ui/icons";
-import React from "react";
-import ProductCard from "./Product/ProductCard";
+import IncreasedProductCard from "./Product/IncreasedProductCard";
 
 interface Product {
   id: number;
@@ -48,7 +47,7 @@ const IncreasedProduct = async () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {products.slice(0, 6).map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <IncreasedProductCard key={product.id} product={product} />
         ))}
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { TriangleUpFill } from '@gravity-ui/icons';
-import React from 'react';
+
 interface Product {
   id: number;
   nameBn: string;
@@ -13,7 +13,7 @@ interface Product {
     pct: number;
   };
 }
-const ProductCard = ({ product }: { product: Product }) => {
+const IncreasedProductCard = ({ product }: { product: Product }) => {
     return (
         <div
             key={product.id}
@@ -48,11 +48,11 @@ const ProductCard = ({ product }: { product: Product }) => {
 
               <div className="flex items-center gap-1 rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-500">
                 <TriangleUpFill className="shrink-0" />
-                <span>{product.change.pct}%</span>
+                <span>{Math.abs(Number(product.change.pct))}%</span>
               </div>
             </div>
           </div>
     );
 };
 
-export default ProductCard;
+export default IncreasedProductCard;

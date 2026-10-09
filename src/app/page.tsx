@@ -1,3 +1,4 @@
+import DecreaseProduct from "./components/Children/DecreaseProduct";
 import Hero from "./components/Children/Hero";
 import IncreasedProduct from "./components/Children/IncreasedProduct";
 
@@ -7,7 +8,7 @@ export default function Home() {
     <div>
       <Hero />
       <IncreasedProduct />
-      <div>আজ দাম কমেছে</div>
+      <DecreaseProduct />
       <div>সব পণ্য</div>
     </div>
   );
