@@ -2,8 +2,18 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 
+const connectionString =
+  process.env.MONGODB_CONNECTION_STRING;
+
+if (!connectionString) {
+  throw new Error(
+    "MONGODB_CONNECTION_STRING is not configured"
+  );
+}
+
 const client = new MongoClient(process.env.MONGODB_CONNECTION_STRING as string);
 const db = client.db("bazardor-pro");
+
 
 
 export const auth = betterAuth({
