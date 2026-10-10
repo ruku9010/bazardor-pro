@@ -96,11 +96,9 @@ const SignInPage = () => {
         <div className="flex gap-2">
           <Button type="submit">
             <Check />
-            Submit
+            সাইন ইন করুন
           </Button>
-          <Button type="reset" variant="secondary">
-            Reset
-          </Button>
+ 
         </div>
 
         <div className="flex items-center w-full my-4"></div>
