@@ -101,7 +101,7 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
               {product?.markets?.length
                 ? Math.round(
                     product.markets.reduce(
-                      (total, market) => total + (market.min + market.max) / 2,
+                      (total: number, market: Product) => total + (market.min + market.max) / 2,
                       0,
                     ) / product.markets.length,
                   )
