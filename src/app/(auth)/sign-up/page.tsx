@@ -111,12 +111,6 @@ const SignUpPage = () => {
     }
   };
 
-  const handleReset = () => {
-    setPassword("");
-    setConfirmPassword("");
-    setIsVisible(false);
-    setIsConfirmVisible(false);
-  };
 
   return (
     <div className="flex items-center justify-center">
@@ -227,14 +221,6 @@ const SignUpPage = () => {
               {isSubmitting ? "Creating account..." : "Sign Up"}
             </Button>
 
-            <Button
-              type="reset"
-              variant="tertiary"
-              onClick={handleReset}
-              isDisabled={isSubmitting}
-            >
-              Cancel
-            </Button>
           </Fieldset.Actions>
         </Fieldset>
 

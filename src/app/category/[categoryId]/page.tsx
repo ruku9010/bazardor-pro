@@ -1,4 +1,6 @@
 import SortedCategoryProducts from "@/app/components/Children/SortedCategoryProducts";
+import { Button } from "@heroui/react";
+import Link from "next/link";
 
 
 
@@ -57,6 +59,7 @@ const CategoryPage = async ({
       </div>
 
       <SortedCategoryProducts products={products} />
+      <Link href="/" ><Button className="mt-5">হোম পেজে ফিরে যান</Button></Link>
     </div>
   );
 };

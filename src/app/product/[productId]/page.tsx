@@ -1,20 +1,39 @@
+
 import { TriangleDownFill, TriangleUpFill } from "@gravity-ui/icons";
 import { notFound } from "next/navigation";
 import { Table } from "@heroui/react";
+import {
+  formatChange,
+  formatPrice,
+  formatUnit,
+} from "../../utils/priceFormatter";
 
-interface Product {
-  market: string,
-division: string,
-min: number,
-max: number
+interface Market {
+  market: string;
+  division: string;
+  min: number;
+  max: number;
 }
 
-const ProductPage = async ({ params }: { params: { productId: string } }) => {
+const ProductPage = async ({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
+}) => {
   const { productId } = await params;
 
   const res = await fetch(
     `https://api.abcz.workers.dev/api/bazardor/products/${productId}`,
+    {
+      next: {
+        revalidate: 300,
+      },
+    },
   );
+
+  if (!res.ok) {
+    notFound();
+  }
 
   const product = await res.json();
 
@@ -22,131 +41,210 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
     notFound();
   }
 
-  console.log(product);
+  const markets: Market[] = product.markets ?? [];
+
+  const direction = product?.change?.dir?.toLowerCase();
+  const isPriceUp = direction === "up";
+  const isPriceDown = direction === "down";
+  const isPriceFlat = !isPriceUp && !isPriceDown;
+
+  const changePercentage = Math.abs(
+    Number(product?.change?.pct ?? 0),
+  );
+
+  const averagePrice = markets.length
+    ? Math.round(
+        markets.reduce(
+          (total, market) => total + (market.min + market.max) / 2,
+          0,
+        ) / markets.length,
+      )
+    : 0;
+
+  const minimumPrice = markets.length
+    ? Math.min(...markets.map((market) => market.min))
+    : 0;
+
+  const maximumPrice = markets.length
+    ? Math.max(...markets.map((market) => market.max))
+    : 0;
+
+  const changeColor = isPriceUp
+    ? "text-red-500"
+    : isPriceDown
+      ? "text-green-600"
+      : "text-gray-500";
+
+  const changeMessage = isPriceUp
+    ? "গতকালের তুলনায় আজ দাম বেড়েছে"
+    : isPriceDown
+      ? "গতকালের তুলনায় আজ দাম কমেছে"
+      : "গতকালের তুলনায় আজ দাম অপরিবর্তিত";
+
   return (
-    <>
-      <div className="flex justify-between items-center w-7xl mx-auto my-4 p-8 bg-white rounded-2xl shadow-md">
-        <div className="flex items-center gap-3">
-          <div className="p-5 bg-[#F0F5F0] rounded-lg">
+    <main className="mx-auto w-full max-w-7xl space-y-5 px-3 py-4 sm:px-5 sm:py-6 lg:px-8">
+      <section className="flex flex-col gap-5 rounded-2xl bg-white p-4 shadow-md sm:p-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-8">
+        <div className="flex min-w-0 items-start gap-3 sm:items-center sm:gap-4">
+          <div className="flex shrink-0 items-center justify-center rounded-xl bg-[#F0F5F0] p-4 text-2xl sm:p-5">
             <span>{product?.categoryIcon}</span>
           </div>
+
+          <div className="min-w-0">
+            <h1 className="break-words text-xl font-bold sm:text-2xl lg:text-3xl">
+              {product?.nameBn}
+            </h1>
+
+            <p className="mt-1 text-sm text-gray-600 sm:text-base">
+              {formatUnit(product?.unit ?? "")}{" "}
+              {product?.categoryNameBn}
+            </p>
+
+            <p className="mt-3 text-sm leading-6 text-gray-600 sm:text-base">
+              {changeMessage}{" "}
+              <span className={`font-semibold ${changeColor}`}>
+                {isPriceFlat
+                  ? "—"
+                  : isPriceUp
+                    ? "▲"
+                    : "▼"}{" "}
+                {formatChange(changePercentage)}%
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className="grid w-full grid-cols-2 items-center gap-3 rounded-2xl bg-[#F0F5F0] p-4 sm:p-5 lg:w-64 lg:shrink-0 lg:grid-cols-1 lg:text-center">
           <div>
-            <div className="mb-2">
-              <h1 className="text-3xl font-bold">{product?.nameBn}</h1>
-              <p>
-                প্রতি {product?.unit} {product?.categoryNameBn}
-              </p>
-            </div>
-            {product?.change.dir === "up" ? (
-              <>
-                <span>
-                  গতকালের তুলনায় আজ দাম বেড়েছে{" "}
-                  {Math.abs(Number(product?.change?.pct))}%
-                </span>
-              </>
-            ) : (
-              <>
-                <span>
-                  গতকালের তুলনায় আজ দাম কমেছে{" "}
-                  {Math.abs(Number(product?.change?.pct))}%
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-        <div className="grid p-4 bg-[#F0F5F0] text-center rounded-2xl">
-          <h2>আজকের দাম</h2>
-          <span className="text-4xl font-bold">{product?.today}</span>
-          <span>টাকা / কেজি</span>
-          <div className="flex flex-col items-center">
-            {product?.change?.dir === "up" ? (
-              <>
-                <span className="flex items-center gap-2">
-                  <TriangleUpFill className="text-red-500" />
-                  {Math.abs(Number(product?.change?.pct))}%
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="flex items-center gap-2">
-                  <TriangleDownFill className="text-green-500" />
-                  {Math.abs(Number(product?.change?.pct))}%
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+            <h2 className="text-sm text-gray-600 sm:text-base">
+              আজকের দাম
+            </h2>
 
-      <div className="p-5 rounded-2xl bg-white border w-7xl mx-auto gap-2">
-        <h3>দামের সারসংক্ষেপ</h3>
-        <div className="p-3 rounded-2xl grid grid-cols-3 gap-3">
-          <div className="border rounded-2xl p-4">
-            <h3>সর্বনিম্ন দাম</h3>
-            <span className="text-[#05893E]">
-              {product?.markets?.[0]?.min} টাকা
-            </span>
-            <p>সবচেয়ে কম দামের বাজার</p>
-          </div>
-          <div className="border rounded-2xl p-4">
-            <h3>সর্বাধিক দাম</h3>
-            <span className="text-[#890505]">
-              {product?.markets?.[0]?.max} টাকা
-            </span>
-            <p>সবচেয়ে বেশি দামের বাজার</p>
-          </div>
-          <div className="border rounded-2xl p-4">
-            <h3>সর্বাধিক দাম</h3>
-            <span className="text-blue-500">
-              {product?.markets?.length
-                ? Math.round(
-                    product.markets.reduce(
-                      (total: number, market: Product) => total + (market.min + market.max) / 2,
-                      0,
-                    ) / product.markets.length,
-                  )
-                : 0}{" "}
-              টাকা
-            </span>
-            <p>সবচেয়ে বেশি দামের বাজার</p>
-          </div>
-        </div>
-        <h3 className="">বাজারভিত্তিক আজকের দাম</h3>
+            <p className="mt-1 text-2xl font-bold sm:text-4xl">
+              {formatPrice(product?.today ?? 0)}
+            </p>
 
-        <Table>
-          <Table.ScrollContainer>
-            <Table.Content
-              aria-label="বাজারভিত্তিক আজকের দাম"
-              className="min-w-[600px]"
+            <span className="text-sm text-gray-600">
+              {formatUnit(product?.unit ?? "")}
+            </span>
+          </div>
+
+          <div className="flex flex-col items-end justify-center lg:items-center">
+            <span
+              className={`flex items-center gap-2 font-semibold ${changeColor}`}
             >
-              <Table.Header>
-                <Table.Column isRowHeader>বাজার</Table.Column>
-                <Table.Column>বিভাগ</Table.Column>
-                <Table.Column>সর্বনিম্ন</Table.Column>
-                <Table.Column>সর্বাধিক</Table.Column>
-                <Table.Column>গড়</Table.Column>
-              </Table.Header>
+              {isPriceUp ? (
+                <TriangleUpFill />
+              ) : isPriceDown ? (
+                <TriangleDownFill />
+              ) : (
+                <span>—</span>
+              )}
 
-              <Table.Body>
-                {(product?.markets ?? []).map((market: Product, index: number) => {
-                  const average = (market?.min + market?.max) / 2;
+              {formatChange(changePercentage)}%
+            </span>
 
-                  return (
-                    <Table.Row key={`${market?.market}-${index}`}>
-                      <Table.Cell>{market?.market}</Table.Cell>
-                      <Table.Cell>{market?.division}</Table.Cell>
-                      <Table.Cell>{market?.min} টাকা</Table.Cell>
-                      <Table.Cell>{market?.max} টাকা</Table.Cell>
-                      <Table.Cell>{average.toFixed(2)} টাকা</Table.Cell>
-                    </Table.Row>
-                  );
-                })}
-              </Table.Body>
-            </Table.Content>
-          </Table.ScrollContainer>
-        </Table>
-      </div>
-    </>
+            <span className="mt-1 text-xs text-gray-500 sm:text-sm">
+              গতকালের তুলনায়
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-2xl border bg-white p-4 sm:p-6">
+        <h2 className="mb-4 text-lg font-bold sm:text-xl">
+          দামের সারসংক্ষেপ
+        </h2>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="rounded-2xl border p-4 sm:p-5">
+            <h3 className="text-sm text-gray-600 sm:text-base">
+              সর্বনিম্ন দাম
+            </h3>
+
+            <p className="mt-2 text-xl font-bold text-[#05893E] sm:text-2xl">
+              {formatPrice(minimumPrice)}
+            </p>
+
+            <p className="mt-1 text-sm text-gray-500">
+              সবচেয়ে কম দামের বাজার
+            </p>
+          </div>
+
+          <div className="rounded-2xl border p-4 sm:p-5">
+            <h3 className="text-sm text-gray-600 sm:text-base">
+              সর্বাধিক দাম
+            </h3>
+
+            <p className="mt-2 text-xl font-bold text-[#890505] sm:text-2xl">
+              {formatPrice(maximumPrice)}
+            </p>
+
+            <p className="mt-1 text-sm text-gray-500">
+              সবচেয়ে বেশি দামের বাজার
+            </p>
+          </div>
+
+          <div className="rounded-2xl border p-4 sm:col-span-2 sm:p-5 lg:col-span-1">
+            <h3 className="text-sm text-gray-600 sm:text-base">
+              গড় দাম
+            </h3>
+
+            <p className="mt-2 text-xl font-bold text-blue-500 sm:text-2xl">
+              {formatPrice(averagePrice)}
+            </p>
+
+            <p className="mt-1 text-sm text-gray-500">
+              সব বাজারের গড় মূল্য
+            </p>
+          </div>
+        </div>
+
+        <h2 className="mb-3 mt-7 text-lg font-bold sm:mt-8 sm:text-xl">
+          বাজারভিত্তিক আজকের দাম
+        </h2>
+
+        <div className="w-full overflow-x-auto rounded-xl border">
+          <Table>
+            <Table.ScrollContainer>
+              <Table.Content
+                aria-label="বাজারভিত্তিক আজকের দাম"
+                className="min-w-[600px]"
+              >
+                <Table.Header>
+                  <Table.Column isRowHeader>বাজার</Table.Column>
+                  <Table.Column>বিভাগ</Table.Column>
+                  <Table.Column>সর্বনিম্ন</Table.Column>
+                  <Table.Column>সর্বাধিক</Table.Column>
+                  <Table.Column>গড়</Table.Column>
+                </Table.Header>
+
+                <Table.Body>
+                  {markets.map((market, index) => {
+                    const average = (market.min + market.max) / 2;
+
+                    return (
+                      <Table.Row key={`${market.market}-${index}`}>
+                        <Table.Cell>{market.market}</Table.Cell>
+                        <Table.Cell>{market.division}</Table.Cell>
+                        <Table.Cell>
+                          {formatPrice(market.min)}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {formatPrice(market.max)}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {formatPrice(average)}
+                        </Table.Cell>
+                      </Table.Row>
+                    );
+                  })}
+                </Table.Body>
+              </Table.Content>
+            </Table.ScrollContainer>
+          </Table>
+        </div>
+      </section>
+    </main>
   );
 };
 

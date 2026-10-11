@@ -1,5 +1,4 @@
 
-import React from "react";
 import CategoryLink from "./CategoryLink";
 
 interface Product {
@@ -35,29 +34,30 @@ const Navlinks = async () => {
   const categories: Category[] = Array.from(
     new Map(
       products.map((product) => [
-        product?.category,
+        product.category,
         {
-          id: product?.category,
-          nameBn: product?.categoryNameBn,
-          icon: product?.categoryIcon,
+          id: product.category,
+          nameBn: product.categoryNameBn,
+          icon: product.categoryIcon,
         },
       ])
     ).values()
   );
 
   return (
-    <ul className="flex gap-4 w-7xl mx-20 list-none p-2 items-center overflow-x-auto">
-      {categories.map((category) => (
-        <li key={category.id}>
-          <CategoryLink
-            id={category.id}
-            icon={category.icon}
-            nameBn={category.nameBn}
-            
-          />
-        </li>
-      ))}
-    </ul>
+    <nav className="w-full border-b bg-white">
+      <ul className="mx-auto flex w-full max-w-7xl list-none items-center gap-2 overflow-x-auto overscroll-x-contain px-3 py-3 sm:gap-3 sm:px-5 md:gap-4 lg:px-8">
+        {categories.map((category) => (
+          <li key={category.id} className="shrink-0">
+            <CategoryLink
+              id={category.id}
+              icon={category.icon}
+              nameBn={category.nameBn}
+            />
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 };
 

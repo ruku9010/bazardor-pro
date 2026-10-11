@@ -1,6 +1,14 @@
-import { TriangleDownFill, TriangleUpFill } from "@gravity-ui/icons";
-import React from "react";
+
+import {
+  TriangleDownFill,
+  TriangleUpFill,
+} from "@gravity-ui/icons";
 import MarqueeText from "react-marquee-text";
+import {
+  formatChange,
+  formatPrice,
+  formatUnit,
+} from "../utils/priceFormatter";
 
 export interface MarqueeProps {
   id: number;
@@ -53,31 +61,60 @@ const Marquee = async () => {
   }
 
   return (
-    <div className="bg-white text-black">
-      <div className="flex ">
-        <MarqueeText className="py-1" direction="right" duration={10} pauseOnHover={true}>
-          <div className="flex gap-10 items-center">
-            {data.map((d) => (
-              <li key={d.id} className="list-none">
-                <div className="flex gap-2 items-center">
+    <div className="overflow-hidden bg-white text-black">
+      <MarqueeText
+        className="py-2"
+        direction="right"
+        duration={10}
+        pauseOnHover={true}
+      >
+        <ul className="flex items-center gap-8">
+          {data.map((d) => {
+            const direction = d.change?.dir?.toLowerCase();
+            const isUp = direction === "up";
+            const isDown = direction === "down";
+            const isFlat = !isUp && !isDown;
+
+            return (
+              <li key={d.id} className="shrink-0 list-none">
+                <div className="flex items-center gap-2 whitespace-nowrap text-sm">
                   <span>{d.categoryIcon}</span>
-                  <span>{d.nameBn}</span>
-                  <span>{d.today}</span>
-                  <span>
-                    {
-                        d.change.dir === "up" ? 
-                        <><TriangleUpFill className="text-red-500" /></> 
-                        : 
-                        <><TriangleDownFill className="text-green-500" /></>
-                    }
+
+                  <span className="font-medium">{d.nameBn}</span>
+
+                  <span className="text-gray-500">
+                    {formatUnit(d.unit)}
                   </span>
-                  <span>{Math.abs(Number(d.change.pct))}%</span>
+
+                  <span className="font-bold">
+                    {formatPrice(d.today)}
+                  </span>
+
+                  <span
+                    className={`flex items-center gap-1 font-semibold ${
+                      isUp
+                        ? "text-green-600"
+                        : isDown
+                          ? "text-red-500"
+                          : "text-gray-500"
+                    }`}
+                  >
+                    {isUp ? (
+                      <TriangleUpFill className="shrink-0" />
+                    ) : isDown ? (
+                      <TriangleDownFill className="shrink-0" />
+                    ) : (
+                      <span>—</span>
+                    )}
+
+                    {formatChange(d.change?.pct ?? 0)}%
+                  </span>
                 </div>
               </li>
-            ))}
-          </div>
-        </MarqueeText>
-      </div>
+            );
+          })}
+        </ul>
+      </MarqueeText>
     </div>
   );
 };
