@@ -33,12 +33,12 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         <h2>{user.name}</h2>
 
-        <button
+        <Button
           onClick={handleSignout}
           className="btn btn-error btn-xs"
         >
           Signout
-        </button>
+        </Button>
       </div>
     </div>
   ) : (

@@ -1,16 +1,10 @@
 
 "use client";
 
-import {
-  updateUser,
-  useSession,
-  signOut,
-} from "@/lib/auth-client";
-
+import { updateUser, useSession, signOut } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FloppyDisk } from "@gravity-ui/icons";
-
 import {
   Button,
   Description,
@@ -21,7 +15,6 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-
 import Image from "next/image";
 
 const ProfilePage = () => {
@@ -52,7 +45,7 @@ const ProfilePage = () => {
     const name = String(formData.get("name") ?? "").trim();
 
     if (name.length < 3) {
-      setError("Name must be at least 3 characters");
+      setError("Name must be at least 3 characters.");
       return;
     }
 
@@ -62,12 +55,11 @@ const ProfilePage = () => {
       const result = await updateUser({ name });
 
       if (result.error) {
-        setError(result.error.message || "Failed to update profile");
+        setError(result.error.message || "Failed to update profile.");
         return;
       }
 
       setSuccess("Profile updated successfully!");
-      router.refresh();
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -84,7 +76,7 @@ const ProfilePage = () => {
       const result = await signOut();
 
       if (result.error) {
-        setError(result.error.message || "Failed to sign out");
+        setError(result.error.message || "Failed to sign out.");
         return;
       }
 
@@ -109,7 +101,7 @@ const ProfilePage = () => {
     <main className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
       <div className="flex flex-col gap-6">
         <section className="w-full rounded-2xl border bg-white p-4 sm:p-6">
-          <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
             <div className="flex min-w-0 items-center gap-4">
               {user.image ? (
                 <Image
@@ -131,7 +123,6 @@ const ProfilePage = () => {
                 <h2 className="truncate text-lg font-semibold">
                   {user.name || "User"}
                 </h2>
-
                 <p className="break-all text-sm text-gray-500">
                   {user.email}
                 </p>
@@ -151,7 +142,10 @@ const ProfilePage = () => {
         </section>
 
         {error && (
-          <p className="rounded-xl border p-3 text-sm text-red-500">
+          <p
+            role="alert"
+            className="rounded-xl border p-3 text-sm text-red-500"
+          >
             {error}
           </p>
         )}
@@ -170,14 +164,12 @@ const ProfilePage = () => {
                 <TextField
                   isRequired
                   name="name"
-                  key={user.id}
                   defaultValue={user.name || ""}
-                  validate={(value) => {
-                    if (value.trim().length < 3) {
-                      return "Name must be at least 3 characters";
-                    }
-                    return null;
-                  }}
+                  validate={(value) =>
+                    value.trim().length < 3
+                      ? "Name must be at least 3 characters."
+                      : null
+                  }
                 >
                   <Label>Name</Label>
                   <Input placeholder="John Doe" />
@@ -186,7 +178,9 @@ const ProfilePage = () => {
               </FieldGroup>
 
               {success && (
-                <p className="mt-4 text-sm text-green-500">{success}</p>
+                <p role="status" className="mt-4 text-sm text-green-500">
+                  {success}
+                </p>
               )}
 
               <Fieldset.Actions>
