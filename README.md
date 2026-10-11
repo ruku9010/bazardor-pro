@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 BazarDor-Pro
 
-## Getting Started
+### Bangladesh Daily Market Price Tracker
 
-First, run the development server:
+**BazarDor-Pro** is a web application that helps users explore daily market prices of essential products in Bangladesh. It provides product price information, market-wise price comparisons, and price change indicators to help users make informed purchasing decisions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js** — React framework for building modern web applications.
+- **Next.js App Router** — File-based routing and application layout management.
+- **TypeScript** — Type-safe and maintainable code.
+- **JavaScript** — Application logic and interactive functionality.
+- **Tailwind CSS** — Utility-first styling for responsive user interfaces.
+- **HeroUI** — UI components for a consistent user experience.
+- **Better Auth** — Authentication and user session management.
+- **MongoDB** — Database integration for application data.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Key Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **📊 Daily Market Price Tracking**  
+   Explore the latest available prices of essential products in Bangladesh.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **🔎 Product Search and Browsing**  
+   Find products and browse available product information easily.
 
-## Deploy on Vercel
+3. **📈 Price Change Indicators**  
+   View price increases and decreases to understand market trends.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **🏪 Market-Wise Price Comparison**  
+   Compare product prices across different markets to identify price differences.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **🔐 Secure User Authentication**  
+   Sign in using email and password or supported social login providers, including Google and GitHub.
+
+---
+
+## 🌐 Live Demo
+
+Explore the live application:
+
+**[https://bazardor-pro.netlify.app/](https://bazardor-pro.netlify.app/)**
+
+---
+
+## 👨‍💻 Developer
+
+Developed with ❤️ using Next.js, MongoDB Atlas, TypeScript, Tailwind CSS, and modern web technologies.
+
